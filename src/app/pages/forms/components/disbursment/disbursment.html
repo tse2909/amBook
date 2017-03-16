@@ -1,0 +1,96 @@
+<div class="widgets">
+
+  <div class="row">
+    <div class="col-md-12">
+      <ba-card  baCardClass="with-scroll">
+        
+        <label>Date</label>
+        <div style="max-width:200px">
+          <!--Datetime-->
+          <datetime [timepicker]="false" [(ngModel)]="date3"></datetime>
+        </div>
+        <!--<div style="clear:both"></div>-->
+        <!--ng-Select-->
+        <form class="form-inline" style="padding:8px; margin-left:15px;" [formGroup]="myForm" novalidate (ngSubmit)="savetoDb()">
+          <div class="row">
+            <div class="form-group">
+              <label>No.</label>
+              <input type="text" class="form-control" formControlName="voucherNo" placeholder="Voucher No.">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <label>ACCOUNT</label>
+              <ng-select [options]="accountArray" [multiple]="multiple0" placeholder="Select one" formControlName="selectAccount" [allowClear]="true"
+                (opened)="onAccountOpened()" (closed)="onAccountClosed()" (selected)="onAccountSelected($event)" (deselected)="onAccountDeselected($event)">
+              </ng-select>
+            </div>
+
+            <div class="form-group">
+              <label>PAY TO</label>
+              <ng-select [options]="options2" [multiple]="multiple0" placeholder="Select one" formControlName="selectName" [allowClear]="true"
+                (opened)="onNameOpened()" (closed)="onNameClosed()" (selected)="onNameSelected($event)" (deselected)="onNameDeselected($event)">
+              </ng-select>
+            </div>
+
+            <div class="form-group">
+              <label>AMOUNT</label>
+              <input type="text" class="form-control" id="input01" placeholder="0" disabled value={{total}}>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <!--<div style="clear:both"></div>-->
+              <label>Memo</label>
+              <div style="width:700px">
+                <input type="text" class="form-control" id="input01" placeholder="Text" disabled value={{description}}>
+              </div>
+            </div>
+          </div>
+
+          <rich-grid (gridOutput)="handleGridOutput($event)"></rich-grid>
+
+
+          <div *ngIf="transactionArray">
+            <div *ngFor="let t of transactionArray" style="color:black">
+              {{t.description}}
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-info" [disabled]="myForm.invalid">Submit</button>
+          <button type="button" class="btn btn-danger" (click)="clearForm()">Clear</button>
+
+        </form>
+      </ba-card>
+
+    </div>
+
+  </div>
+
+</div>
+
+<button type="button" class="btn btn-default" (click)="validationModal.open()">With form validation</button>
+<section class="container">
+      <modal #validationModal>
+        <form #modalForm="ngForm">
+            <modal-header [show-close]="true">
+                <h4 class="modal-title">I'm a modal!</h4>
+            </modal-header>
+            <modal-body>
+              <rich-grid-cheque (gridOutput)="handleGridOutputCheque($event)"></rich-grid-cheque>
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" required [(ngModel)]="firstName" name="firstName" id="firstName">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" required [(ngModel)]="lastName" name="lastName" id="lastName">
+                </div>
+            </modal-body>
+            <modal-footer>
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="validationModal.dismiss()">Cancel</button>
+                <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="validationModal.close()">Save</button>
+            </modal-footer>
+        </form>
+    </modal>
+</section>

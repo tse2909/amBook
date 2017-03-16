@@ -1,0 +1,7 @@
+<div class="channels-block">
+
+  <div *ngFor="let b of balance">
+    {{b._id}} {{b.Debit - b.Credit | currency:'USD':true}}  
+  </div>
+</div>
+
